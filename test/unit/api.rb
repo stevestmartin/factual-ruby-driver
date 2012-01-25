@@ -8,10 +8,15 @@ require File.expand_path(File.dirname(__FILE__)) + '/my_key_pair'
 class ApiTest < Test::Unit::TestCase
   
 
-  FACTUAL_ID = "03c26917-5d66-4de9-96bc-b13066173c65"
+  FACTUAL_ID = "110ace9f-80a7-47d3-9170-e9317624ebd9"
    
   def setup
     @api = Factual.new( FACTUAL_OAUTH_KEY, FACTUAL_OAUTH_SECRET )
+  end
+
+  def test_select
+    row = @api.table(:global).select(:name, :address).first
+    assert_equal row.keys.length, 2
   end
 
   def test_first
@@ -26,9 +31,9 @@ class ApiTest < Test::Unit::TestCase
   end
 
   def test_sort
-    row = @api.table(:global).sort(:country, :name).first
+    row = @api.table(:global).sort_asc(:country, :name).first
     assert_match /^100/, row["name"]
-    row = @api.table(:global).sort(:name).first
+    row = @api.table(:global).sort_asc(:name).first
     assert_match /^\!/, row["name"]
 
     row = @api.table(:global).sort_desc(:country, :name).first
@@ -76,14 +81,25 @@ class ApiTest < Test::Unit::TestCase
     assert_equal hash.class, Hash
   end
 
+  def test_geo
+    query = @api.table(:global).geo("$circle" => {"$center" => [34.06021, -118.41828], "$meters" => 5000})
+    assert_equal query.first["name"], "Factual"
+  end
+
   def test_crosswalk
     query = @api.crosswalk(FACTUAL_ID)
+    assert_equal query.rows.length, 27
+    assert_equal query.first["namespace"], 'allmenus'
 
-    assert_equal query.first["namespace"], 'facebook'
+    query = query.limit(3)
+    assert_equal query.rows.length, 3
+
+    query = query.only('yelp')
+    assert_equal query.first['namespace'], 'yelp'
   end
 
   def test_resolve
-    query = @api.resolve(:name => 'factual inc', :region => 'ca')
+    query = @api.resolve(:name => 'factual inc', :locality => 'los angeles')
 
     assert query.first["resolved"]
     assert_match /stars/i, query.first["address"]
