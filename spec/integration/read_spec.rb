@@ -3,6 +3,9 @@ require 'yaml'
 
 CREDENTIALS_FILE = File.expand_path('./key_secret.yaml', File.dirname(__FILE__))
 
+LAT = 34.06021
+LNG = -118.41828
+
 describe "Read APIs" do
   before(:all) do
     credentials = YAML.load(File.read(CREDENTIALS_FILE))
@@ -14,7 +17,7 @@ describe "Read APIs" do
   it "should be able to do a table query" do
     rows = @factual.table("places").search("sushi", "sashimi")
       .filters("category" => "Food & Beverage > Restaurants")
-      .geo("$circle" => {"$center" => [34.06021, -118.41828], "$meters" => 5000})
+      .geo("$circle" => {"$center" => [LAT, LNG], "$meters" => 5000})
       .sort("name").page(2, :per => 10).rows
     rows.class.should == Array
     rows.each do |row|
@@ -42,5 +45,27 @@ describe "Read APIs" do
       row.class.should == Hash
       row.keys.should_not be_empty
     end
+  end
+
+  it "should be able to do a geocode query" do
+    row = @factual.geocode(LAT, LNG).first
+    row.class.should == Hash
+    row['address'].should_not be_empty
+  end
+
+  it "should be able to do geopulse queries" do
+    query = @factual.geopulse(LAT, LNG)
+    row = query.first
+    row.class.should == Hash
+    row['age_by_gender'].class.should == Hash
+    row['income'].class.should == Hash
+    row['race'].class.should == Hash
+
+    query = query.select('race', 'income')
+    row = query.first
+    row.class.should == Hash
+    row['age_by_gender'].class.should == NilClass
+    row['income'].class.should == Hash
+    row['race'].class.should == Hash
   end
 end

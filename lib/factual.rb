@@ -4,6 +4,8 @@ require 'factual/query/table'
 require 'factual/query/facets'
 require 'factual/query/resolve'
 require 'factual/query/crosswalk'
+require 'factual/query/geocode'
+require 'factual/query/geopulse'
 require 'factual/write/flag'
 require 'factual/write/submit'
 
@@ -32,6 +34,14 @@ class Factual
 
   def resolve(values)
     Query::Resolve.new(@api, :values => values)
+  end
+
+  def geocode(lat, lng)
+    Query::Geocode.new(@api, lat, lng)
+  end
+
+  def geopulse(lat, lng)
+    Query::Geopulse.new(@api, lat, lng)
   end
 
   def read(path)
