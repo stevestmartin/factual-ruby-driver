@@ -518,7 +518,8 @@ The <tt>geopulse</tt> method fetches results based on the given point:
 
 
 ````ruby
-factual.geopulse(34.06021, -118.41828).select("commercial_density", "commercial_profile")
+query = factual.geopulse(34.06021, -118.41828).select("commercial_density", "commercial_profile")
+query.first
 ````
 
 
@@ -552,7 +553,8 @@ The driver fully supports Factual's <a href="http://wiki.corp.factual.com/displa
 The <tt>geocode</tt> method fetches results based on the given point:
 
 ````ruby
-factual.geocode(34.06021, -118.41828)
+query = factual.geocode(34.06021, -118.41828)
+query.first
 ````
 
 ## All Top Level Reverse Geocoder Parameters
@@ -588,24 +590,27 @@ Examples:
 
 ````ruby
 # Get all towns surrounding Philadelphia
-factual.table("world-geographies").select("neighbors").filters(:factual_id => "08ca0f62-8f76-11e1-848f-cfd5bf3ef515")
+query = factual.table("world-geographies").select("neighbors").filters(:factual_id => "08ca0f62-8f76-11e1-848f-cfd5bf3ef515")
+query.rows
 ````
 
 ````ruby
 # Find the town zipcode 95008 belongs to
-factual.table("world-geographies").filters(
+query = factual.table("world-geographies").filters(
     {"$and" => [ {:name => "95008"},
                  {:country => "us"} ]} )
+query.rows
 ````
 
 ````ruby
 # Searching by placename, placetype, country and geographic hierarchy
-factual.table("world-geographies").filters(
+query = factual.table("world-geographies").filters(
     {"$and" => [ {:name => "wayne"},
                  {:country => "us"},
                  {:placetype => "locality"},
                  {:ancestors => {:"$search" => "08666f5c-8f76-11e1-848f-cfd5bf3ef515"}} ]} )
 
+query.rows
 ````
 
 For more details about World Geographies, including schema, see [the main API docs for World Geographies](http://developer.factual.com/display/docs/World+Geographies).
