@@ -26,8 +26,9 @@ class Factual
         response["data"]
       end
 
-      def total_rows
-        response["total_row_count"]
+      def total_count
+        resp = @api.get(self, :include_count => true, :limit => 1)
+        resp["total_row_count"]
       end
 
       def schema
@@ -42,7 +43,7 @@ class Factual
       end
 
       def response
-        @response ||= @api.execute(self)
+        @response ||= @api.get(self)
       end
     end
   end
