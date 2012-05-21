@@ -1,9 +1,15 @@
+## v1.1.9
+* added geocode, geopulse and world-geographies
+* added facets
+* adding writes (submit, flag)
+* updated documents
+
 ## v1.1
-* debug mode
-* raw read
+* added debug mode
+* added raw read
 
 ## v1.0.3
-* adding crosswalk(namespace_id, namespace)
+* added crosswalk(namespace_id, namespace)
 
 ## v1.0.2
 * lazy getting total_count of a query

@@ -518,9 +518,7 @@ The <tt>geopulse</tt> method fetches results based on the given point:
 
 
 ````ruby
-# TODO! Translate to Ruby!
-ReadResponse resp = factual.geopulse(new Geopulse(new Point(latitude, longitude))
-												.only("commercial_density", "commercial_profile"));
+factual.geopulse(34.06021, -118.41828).select("commercial_density", "commercial_profile")
 ````
 
 
@@ -535,12 +533,12 @@ ReadResponse resp = factual.geopulse(new Geopulse(new Point(latitude, longitude)
   <tr>
     <td>geo</td>
     <td>A geographic point around which information is retrieved.</td>
-    <td><tt>new Point(latitude, longitude)</tt></td><!-- TODO! translate to Ruby -->
+    <td><tt>factual.geopulse(34.06021, -118.41828)</tt></td>
   </tr>
   <tr>
     <td>select</td>
     <td>What fields to include in the query results. Note that the order of fields will not necessarily be preserved in the resulting JSON response due to the nature of JSON hashes.</td>
-    <td><tt>geopulse.only("commercial_density", "commercial_profile")</tt></td><!-- TODO! translate to Ruby -->
+    <td><tt>.select("commercial_density", "commercial_profile")</tt></td>
   </tr>
 </table>	
 
@@ -551,11 +549,10 @@ The driver fully supports Factual's <a href="http://wiki.corp.factual.com/displa
 
 ## Simple Reverse Geocoder Example
 	
-The <tt>reverseGeocode</tt> method fetches results based on the given point:
+The <tt>geocode</tt> method fetches results based on the given point:
 
 ````ruby
-# TODO! Translate to Ruby!
-ReadResponse resp = factual.reverseGeocode(new Point(latitude, longitude));	
+factual.geocode(34.06021, -118.41828)
 ````
 
 ## All Top Level Reverse Geocoder Parameters
@@ -569,7 +566,7 @@ ReadResponse resp = factual.reverseGeocode(new Point(latitude, longitude));
   <tr>
     <td>geo</td>
     <td>A valid geographic point for which the closest address is retrieved.</td>
-    <td><tt>new Point(latitude, longitude)</tt></td><!-- TODO! translate to Ruby -->
+    <td><tt>factual.geocode(34.06021, -118.41828)</tt></td>
   </tr>
 </table>
 
@@ -585,35 +582,30 @@ Common use cases include:
 * Validating data against city, state, country and county names
 * A translation table to convert between the search key used by a user, i.e. '慕尼黑' or 'Munich' for the native 'München'
 
-TODO! Translate to Ruby
-You can use the <tt>fetch</tt> function to query World Geographies, supplying :world-geographies as the table name.
+You can use the <tt>query</tt> function to query World Geographies, supplying "world-geographies" as the table name.
 
 Examples:
 
 ````ruby
-#TODO! Translate to Ruby
 # Get all towns surrounding Philadelphia
-(fact/fetch {:table :world-geographies
-             :select "neighbors"
-             :filters {:factual_id {:$eq "08ca0f62-8f76-11e1-848f-cfd5bf3ef515"}}})
+factual.table("world-geographies").select("neighbors").filters(:factual_id => "08ca0f62-8f76-11e1-848f-cfd5bf3ef515")
 ````
 
 ````ruby
-#TODO! Translate to Ruby
 # Find the town zipcode 95008 belongs to
-(fact/fetch  {:table :world-geographies
-              :filters {:name {:$eq "95008"}
-                        :country {:$eq "us"}}})
+factual.table("world-geographies").filters(
+    {"$and" => [ {:name => "95008"},
+                 {:country => "us"} ]} )
 ````
 
 ````ruby
-#TODO! Translate to Ruby
 # Searching by placename, placetype, country and geographic hierarchy
-(fact/fetch {:table :world-geographies
-             :filters {:name {:$eq "wayne"}
-                       :country {:$eq :us}
-                       :placetype {:$eq "locality"}
-                       :ancestors {:$search "08666f5c-8f76-11e1-848f-cfd5bf3ef515"}}})
+factual.table("world-geographies").filters(
+    {"$and" => [ {:name => "wayne"},
+                 {:country => "us"},
+                 {:placetype => "locality"},
+                 {:ancestors => {:"$search" => "08666f5c-8f76-11e1-848f-cfd5bf3ef515"}} ]} )
+
 ````
 
 For more details about World Geographies, including schema, see [the main API docs for World Geographies](http://developer.factual.com/display/docs/World+Geographies).
@@ -636,9 +628,9 @@ factual.submit("global", "user123").values({"name" => "McDenny's", "address" => 
 ````ruby
 # Submit a correction to an existing row in Factual's places dataset.
 # Also set optional comment and reference
-contr = factual.submit("places", "user123").values({:name => "McDenny's"})
-contr = contr.comment("They changed their name last month").reference("http://www.example.com/mypage.html")
-contr.write
+submit = factual.submit("places", "user123").values({:name => "McDenny's"})
+submit = submit.comment("They changed their name last month").reference("http://www.example.com/mypage.html")
+submit.write
 ````
 
 
