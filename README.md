@@ -2,22 +2,6 @@
 
 This is the Factual supported Ruby driver for [Factual's public API](http://developer.factual.com/display/docs/Factual+Developer+APIs+Version+3).
 
-This API supports queries to Factual's public API, including Read, Schema, Facets, Crosswalk, Resolve, Reverse Geocoder, Geopulse, Submit, and Flag. Full documentation is available on the Factual website:
-
-#### Reads
-*   [Read](http://developer.factual.com/display/docs/Factual+Developer+APIs+Version+3): Search the data
-*   [Schema](http://developer.factual.com/display/docs/Core+API+-+Schema): Get table metadata
-*   [Facets](http://wiki.corp.factual.com/display/DOCS/Core+API+-+Facets): Get facets of the data
-
-#### Places Sugars
-*   [Crosswalk](http://developer.factual.com/display/docs/Places+API+-+Crosswalk): Get third-party IDs
-*   [Resolve](http://developer.factual.com/display/docs/Places+API+-+Resolve): Enrich your data and match it against Factual's
-*   [Reverse Geocoder](http://developer.factual.com/display/docs/Places+API+-+Reverse+Geocoder): Get nearest valid address
-*   [Geopulse](http://developer.factual.com/display/docs/Places+API+-+Geopulse): Get point-based access to geographic attributes
-
-#### Writes
-*   [Submit](http://wiki.corp.factual.com/display/DOCS/Core+API+-+Submit): Submit corrections and new data to Factual tables
-*   [Flag](http://wiki.corp.factual.com/display/DOCS/Core+API+-+Flag): flag problematic rows in Factual tables
 
 This driver is supported via the [Factual Developer Group](https://groups.google.com/group/factual_developers)
 
@@ -72,7 +56,7 @@ factual.table("restaurants-us")
   .filters({"locality" => "los angeles", "rating" => {"$gte" => 4}, "wifi" => true}).rows
 ````
 
-## Simple Places Sugars Example
+## Simple Places Example
 
 ````ruby
 # Concordance information of a place
@@ -522,6 +506,117 @@ flag.write
     <td><tt>.reference("http://www.example.com/somepage.html")</tt></td>
   </tr>
 </table>  
+
+
+# Geopulse
+
+The driver fully supports Factual's <a href="http://wiki.corp.factual.com/display/DOCS/Places+API+-+Geopulse">Geopulse</a> feature, which provides point-based access to geographic attributes: you provide a long/lat coordinate pair, we provide everything we can know about that geography. 
+
+## Simple Geopulse Example
+
+The <tt>geopulse</tt> method fetches results based on the given point:
+
+
+````ruby
+# TODO! Translate to Ruby!
+ReadResponse resp = factual.geopulse(new Geopulse(new Point(latitude, longitude))
+												.only("commercial_density", "commercial_profile"));
+````
+
+
+## All Top Level Geopulse Parameters
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>geo</td>
+    <td>A geographic point around which information is retrieved.</td>
+    <td><tt>new Point(latitude, longitude)</tt></td><!-- TODO! translate to Ruby -->
+  </tr>
+  <tr>
+    <td>select</td>
+    <td>What fields to include in the query results. Note that the order of fields will not necessarily be preserved in the resulting JSON response due to the nature of JSON hashes.</td>
+    <td><tt>geopulse.only("commercial_density", "commercial_profile")</tt></td><!-- TODO! translate to Ruby -->
+  </tr>
+</table>	
+
+
+# Reverse Geocoder
+
+The driver fully supports Factual's <a href="http://wiki.corp.factual.com/display/DOCS/Places+API+-+Reverse+Geocoder">Reverse Geocoder</a> feature, which returns the nearest valid address given a longitude and latitude. 
+
+## Simple Reverse Geocoder Example
+	
+The <tt>reverseGeocode</tt> method fetches results based on the given point:
+
+````ruby
+# TODO! Translate to Ruby!
+ReadResponse resp = factual.reverseGeocode(new Point(latitude, longitude));	
+````
+
+## All Top Level Reverse Geocoder Parameters
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>geo</td>
+    <td>A valid geographic point for which the closest address is retrieved.</td>
+    <td><tt>new Point(latitude, longitude)</tt></td><!-- TODO! translate to Ruby -->
+  </tr>
+</table>
+
+
+# World Geographies
+
+World Geographies contains administrative geographies (states, counties, countries), natural geographies (rivers, oceans, continents), and assorted geographic miscallaney.  This resource is intended to complement Factual's Global Places and add utility to any geo-related content.
+
+Common use cases include:
+
+* Determining all cities within a state or all postal codes in a city
+* Creating a type-ahead placename lookup
+* Validating data against city, state, country and county names
+* A translation table to convert between the search key used by a user, i.e. '慕尼黑' or 'Munich' for the native 'München'
+
+TODO! Translate to Ruby
+You can use the <tt>fetch</tt> function to query World Geographies, supplying :world-geographies as the table name.
+
+Examples:
+
+````ruby
+#TODO! Translate to Ruby
+# Get all towns surrounding Philadelphia
+(fact/fetch {:table :world-geographies
+             :select "neighbors"
+             :filters {:factual_id {:$eq "08ca0f62-8f76-11e1-848f-cfd5bf3ef515"}}})
+````
+
+````ruby
+#TODO! Translate to Ruby
+# Find the town zipcode 95008 belongs to
+(fact/fetch  {:table :world-geographies
+              :filters {:name {:$eq "95008"}
+                        :country {:$eq "us"}}})
+````
+
+````ruby
+#TODO! Translate to Ruby
+# Searching by placename, placetype, country and geographic hierarchy
+(fact/fetch {:table :world-geographies
+             :filters {:name {:$eq "wayne"}
+                       :country {:$eq :us}
+                       :placetype {:$eq "locality"}
+                       :ancestors {:$search "08666f5c-8f76-11e1-848f-cfd5bf3ef515"}}})
+````
+
+For more details about World Geographies, including schema, see [the main API docs for World Geographies](http://developer.factual.com/display/docs/World+Geographies).
 
 
 # Submit
