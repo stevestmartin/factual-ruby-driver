@@ -33,16 +33,28 @@ class Factual
       handle_payload(payload)
     end
 
+    def full_path(action, path, params)
+      fp = "/#{path}"
+      fp += "/#{action}" unless action == :read
+      fp += "?#{query_string(params)}"
+    end
+
     private
 
     def handle_request(action, path, params)
-      url = "http://#{@host}/#{path}"
-      url += "/#{action}" unless action == :read
-      url += "?#{query_string(params)}"
+      url = "http://#{@host}" + full_path(action, path, params)
 
       puts "Request: #{url}" if @debug_mode
       payload = JSON.parse(make_request(url).body)
-      handle_payload(payload)
+
+      if (path == :multi)
+         payload.inject({}) do |res, item|
+           name, p = item
+           res[name] = handle_payload(p)
+         end
+      else
+        handle_payload(payload)
+      end
     end
 
     def handle_payload(payload)

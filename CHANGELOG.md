@@ -3,6 +3,7 @@
 * added facets
 * adding writes (submit, flag)
 * updated documents
+* added multi
 
 ## v1.1
 * added debug mode

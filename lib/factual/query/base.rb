@@ -35,6 +35,15 @@ class Factual
         @schema ||= @api.schema(self)
       end
 
+      # TODO move to Multiable module, and support multi writes
+      def full_path
+        @api.full_path(@action, @path, @params)
+      end
+
+      def populate(query_response)
+        @response = query_response
+      end
+
       private
 
       def form_value(args)

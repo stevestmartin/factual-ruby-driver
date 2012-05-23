@@ -8,6 +8,7 @@ require 'factual/query/geocode'
 require 'factual/query/geopulse'
 require 'factual/write/flag'
 require 'factual/write/submit'
+require 'factual/multi'
 
 class Factual
   def initialize(key, secret, options = {})
@@ -46,6 +47,14 @@ class Factual
 
   def read(path)
     @api.raw_read(path)
+  end
+
+  def send_multi(&block)
+    queries = Hash.new
+    block.call(queries)
+
+    multi = Multi.new(@api, queries)
+    multi.send
   end
 
   def flag(table, factual_id, problem, user)
