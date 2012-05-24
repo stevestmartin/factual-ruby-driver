@@ -718,13 +718,12 @@ The <a href="http://developer.factual.com/display/docs/Core+API+-+Multi">multi A
 places_query = @factual.table("places").search('sushi').filters(:postcode => 90067)
 geocode_query = @factual.geocode(34.06021,-118.41828)
 
-multi = @factual.send_multi do |queries|
-  queries[:nearby_sushi] = places_query
-  queries[:factual_inc] = geocode_query
-end
+responses = @factual.multi(
+  :nearby_sushi => places_query,
+  :factual_inc => geocode_query)
 
-multi[:nearby_sushi].first
-multi[:factual_inc].first
+responses[:nearby_sushi].first
+responses[:factual_inc].first
 ````
 
 # Debug Mode

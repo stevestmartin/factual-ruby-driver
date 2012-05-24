@@ -49,10 +49,7 @@ class Factual
     @api.raw_read(path)
   end
 
-  def send_multi(&block)
-    queries = Hash.new
-    block.call(queries)
-
+  def multi(queries)
     multi = Multi.new(@api, queries)
     multi.send
   end

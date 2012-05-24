@@ -15,20 +15,16 @@ describe "Multi API" do
     places_query = @factual.table("places").search('sushi').filters(:postcode => 90067)
     geocode_query = @factual.geocode(34.06021,-118.41828)
 
-    multi = @factual.send_multi do |queries|
-      queries[:nearby_sushi] = places_query
-      queries[:factual_inc] = geocode_query
-    end
+    responses = @factual.multi(
+      :nearby_sushi => places_query,
+      :factual_inc => geocode_query)
 
-    puts multi[:nearby_sushi].first.inspect
-    puts multi[:factual_inc].first.inspect
-
-    multi[:nearby_sushi].rows.length.should == 20
-    multi[:nearby_sushi].rows.each do |row|
+    responses[:nearby_sushi].rows.length.should == 20
+    responses[:nearby_sushi].rows.each do |row|
       row.class.should == Hash
       row.keys.should_not be_empty
     end
 
-    multi[:factual_inc].first["postcode"].should == "90067"
+    responses[:factual_inc].first["postcode"].should == "90067"
   end
 end
