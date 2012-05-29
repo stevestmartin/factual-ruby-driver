@@ -58,7 +58,7 @@ class Factual
     end
 
     def handle_payload(payload)
-      raise StandardError.new(payload["message"]) unless payload["status"] == "ok"
+      raise StandardError.new(payload.to_json) unless payload["status"] == "ok"
       payload["response"]
     end
 
