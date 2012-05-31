@@ -1,11 +1,6 @@
 require 'spec_helper'
 require 'yaml'
 
-CREDENTIALS_FILE = File.expand_path('./key_secret.yaml', File.dirname(__FILE__))
-
-LAT = 34.06021
-LNG = -118.41828
-
 describe "Read APIs" do
   before(:all) do
     credentials = YAML.load(File.read(CREDENTIALS_FILE))

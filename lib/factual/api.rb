@@ -20,7 +20,7 @@ class Factual
     end
 
     def post(request)
-      response = make_post_request("http://" + @host + request.path, request.body)
+      response = make_request("http://" + @host + request.path, request.body, :post)
       payload = JSON.parse(response.body)
       handle_payload(payload)
     end
@@ -45,7 +45,6 @@ class Factual
     def handle_request(action, path, params)
       url = "http://#{@host}" + full_path(action, path, params)
 
-      puts "Request: #{url}" if @debug_mode
       payload = JSON.parse(make_request(url).body)
 
       if (path == :multi)
@@ -63,18 +62,23 @@ class Factual
       payload["response"]
     end
 
-    def make_post_request(url, body)
-      if @debug_mode
-        puts "Request: #{url}"
-        puts "Body: #{body}"
-      end
-      headers = { "X-Factual-Lib" => DRIVER_VERSION_TAG }
-      @access_token.post(url, body, headers)
-    end
+    def make_request(url, body=nil, method=:get)
+      start_time = Time.now
 
-    def make_request(url)
       headers = { "X-Factual-Lib" => DRIVER_VERSION_TAG }
-      @access_token.get(url, headers)
+
+      res = if (method == :get)
+              @access_token.get(url, headers)
+            elsif (method == :post)
+              @access_token.post(url, body, headers)
+            else
+              raise StandardError.new("Unknown http method")
+            end
+
+      elapsed_time = (Time.now - start_time) * 1000
+      debug(url, method, headers, body, res, elapsed_time) if @debug_mode
+
+      res
     end
 
     def query_string(params)
@@ -85,6 +89,30 @@ class Factual
       end
 
       query_array.join("&")
+    end
+
+    def debug(url, method, headers, body, res, elapsed_time)
+      res_headers = res.to_hash.inject({}) do |h, kv|
+        k, v = kv
+        h[k] = v.join(',')
+        h
+      end
+
+      puts "--- Driver version: #{DRIVER_VERSION_TAG}"
+      puts "--- request debug ---"
+      puts "req url: #{url}"
+      puts "req method: #{method.upcase}"
+      puts "req headers: #{JSON.pretty_generate(headers)}"
+      puts "req body: #{body}" if body
+      puts "---------------------"
+      puts "--- response debug ---"
+      puts "resp status code: #{res.code}"
+      puts "resp status message: #{res.message}"
+      puts "resp headers: #{JSON.pretty_generate(res_headers)}"
+      puts "resp body: #{res.body}"
+      puts "---------------------"
+      puts "Elapsed time: #{elapsed_time} msecs"
+      puts
     end
   end
 end

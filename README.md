@@ -738,3 +738,14 @@ the third argument of the Factual constructor. Here is an example in irb:
 Request: http://api.v3.factual.com/t/places?filters=%7B%22name%22%3A%7B%22%24bw%22%3A%22starbucks%22%7D%7D
  => [{"address"=>"11290 Donner Pass Rd", "category"=>"Food & Beverage > Cafes, Coffee Houses & Tea Houses", ...
 ````
+
+# Where to Get Help
+
+If you think you've identified a specific bug in this driver, please file an issue in the github repo. Please be as specific as you can, including:
+
+  * What you did to surface the bug
+  * What you expected to happen
+  * What actually happened
+  * Detailed stack trace and/or line numbers
+
+If you are having any other kind of issue, such as unexpected data or strange behaviour from Factual's API (or you're just not sure WHAT'S going on), please contact us through [GetSatisfaction](http://support.factual.com/factual).

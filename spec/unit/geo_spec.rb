@@ -3,9 +3,6 @@ require 'spec_helper'
 describe Factual::Query::Geocode do
   include TestHelpers
 
-  LAT = 34.06021
-  LNG = -118.41828
-
   before(:each) do
     @token = get_token
     @api = get_api(@token)

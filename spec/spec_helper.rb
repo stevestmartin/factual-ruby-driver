@@ -7,6 +7,12 @@ RSpec.configure do |c|
     c.mock_with :rspec
 end
 
+CREDENTIALS_FILE = File.expand_path('./integration/key_secret.yaml', File.dirname(__FILE__))
+
+LAT = 34.06021
+LNG = -118.41828
+
+
 class MockAccessToken
   class Response
     def initialize(type, action = :read)
