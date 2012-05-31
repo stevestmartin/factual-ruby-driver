@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
+require lib + '/factual/api'
 
 Gem::Specification.new do |s|
   s.name        = "factual-api"
-  s.version     =  "1.1.9"
+  s.version     =  Factual::API::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Rudiger Lippert", "Forrest Cao"]
   s.email       = ["rudy@factual.com", "forrest@factual.com"]

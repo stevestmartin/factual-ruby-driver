@@ -3,9 +3,10 @@ require 'cgi'
 
 class Factual
   class API
-    API_V3_HOST        = "api.v3.factual.com"
-    DRIVER_VERSION_TAG = "factual-ruby-driver-1.0"
-    PARAM_ALIASES      = { :search => :q, :sort_asc => :sort }
+    VERSION = "1.1.9"
+    API_V3_HOST = "api.v3.factual.com"
+    DRIVER_VERSION_TAG = "factual-ruby-driver-v" + VERSION
+    PARAM_ALIASES = { :search => :q, :sort_asc => :sort }
 
     def initialize(access_token, debug_mode = false, host = nil)
       @access_token = access_token
