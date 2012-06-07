@@ -4,6 +4,7 @@
 * adding writes (submit, flag)
 * updated documents
 * added multi
+* added monetize
 
 ## v1.1
 * added debug mode

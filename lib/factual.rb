@@ -4,6 +4,7 @@ require 'factual/query/table'
 require 'factual/query/facets'
 require 'factual/query/resolve'
 require 'factual/query/crosswalk'
+require 'factual/query/monetize'
 require 'factual/query/geocode'
 require 'factual/query/geopulse'
 require 'factual/write/flag'
@@ -31,6 +32,10 @@ class Factual
     else
       Query::Crosswalk.new(@api, :factual_id => namespace_id)
     end
+  end
+
+  def monetize
+    Query::Monetize.new(@api)
   end
 
   def resolve(values)

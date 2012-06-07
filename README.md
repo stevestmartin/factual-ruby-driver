@@ -710,6 +710,15 @@ forward-slash) and the request will be made using your OAuth token:
 factual.read('/t/restaurants-us?filters={"name":{"$bw":"Star"}}&include_count=true')
 ````
 
+# Monetize
+
+The <a href="http://developer.factual.com/display/docs/Places+API+-+Monetize">Monetize API</a> enables you to find deals for places in Factual's Global Places database.
+
+````ruby
+query = @factual.monetize.search('sushi').filters(:place_postcode => 90067)
+query.rows
+````
+
 # Multi
 
 The <a href="http://developer.factual.com/display/docs/Core+API+-+Multi">multi API call</a> enables making multiple API GET requests on the same connection. Multi supports the read, crosswalk, resolve, facets, geocode and geopulse API calls.

@@ -63,4 +63,22 @@ describe "Read APIs" do
     row['income'].class.should == Hash
     row['race'].class.should == Hash
   end
+
+  it "should be able to do a monetize query" do
+    rows = @factual.monetize.rows
+    rows.class.should == Array
+    rows.each do |row|
+      row.class.should == Hash
+      row.keys.should_not be_empty
+    end
+  end
+
+  it "should be able to report a invalid field error" do
+    begin
+      @factual.monetize.filters("country" => "US").rows
+    rescue StandardError => e
+      JSON.parse(e.to_s)["error_type"].should == "InvalidFilterArgument"
+    end
+  end
+
 end
