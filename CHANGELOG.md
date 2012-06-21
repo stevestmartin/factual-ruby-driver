@@ -1,3 +1,6 @@
+## v1.2
+* releasing geo features, facets, writes, multi and monetize
+
 ## v1.1.9
 * added geocode, geopulse and world-geographies
 * added facets
