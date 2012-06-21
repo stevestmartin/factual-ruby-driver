@@ -2,14 +2,19 @@ require 'factual/query/base'
 
 class Factual
   module Query
-    class Resolve < Base
+    class Monetize < Base
+      VALID_PARAMS  = [
+        :filters, :search, :geo, 
+        :limit, :offset
+      ] 
+
       def initialize(api, params = {})
-        @path = "places/resolve"
+        @path = "places/monetize"
         @action = :read
         super(api, params)
       end
 
-      [:values, :include_count].each do |param|
+      VALID_PARAMS.each do |param|
         define_method(param) do |*args|
           self.class.new(@api, @params.merge(param => form_value(args)))
         end

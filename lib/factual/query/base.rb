@@ -27,12 +27,21 @@ class Factual
       end
 
       def total_count
-        resp = @api.execute(self, :include_count => true, :limit => 1)
+        resp = @api.get(self, :include_count => true, :limit => 1)
         resp["total_row_count"]
       end
 
       def schema
         @schema ||= @api.schema(self)
+      end
+
+      # TODO move to Multiable module, and support multi writes
+      def full_path
+        @api.full_path(@action, @path, @params)
+      end
+
+      def populate(query_response)
+        @response = query_response
       end
 
       private
@@ -43,7 +52,7 @@ class Factual
       end
 
       def response
-        @response ||= @api.execute(self)
+        @response ||= @api.get(self)
       end
     end
   end
