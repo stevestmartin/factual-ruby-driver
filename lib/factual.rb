@@ -28,6 +28,7 @@ class Factual
 
   def crosswalk(namespace_id, namespace = nil)
     if namespace
+      raise "DEPRECATED. For more information, please visit http://developer.factual.com/display/docs/Places+API+-+Crosswalk"
       Query::Crosswalk.new(@api, :filters => {:namespace_id => namespace_id, :namespace => namespace})
     else
       Query::Crosswalk.new(@api, :filters => {:factual_id => namespace_id})
