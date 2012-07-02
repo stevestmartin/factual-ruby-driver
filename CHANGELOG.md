@@ -1,3 +1,6 @@
+## v1.2.1
+* crosswalk endpoint change
+
 ## v1.2
 * releasing geo features, facets, writes, multi and monetize
 

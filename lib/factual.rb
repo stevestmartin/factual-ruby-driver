@@ -28,9 +28,9 @@ class Factual
 
   def crosswalk(namespace_id, namespace = nil)
     if namespace
-      Query::Crosswalk.new(@api, :namespace_id => namespace_id, :namespace => namespace)
+      Query::Crosswalk.new(@api, :filters => {:namespace_id => namespace_id, :namespace => namespace})
     else
-      Query::Crosswalk.new(@api, :factual_id => namespace_id)
+      Query::Crosswalk.new(@api, :filters => {:factual_id => namespace_id})
     end
   end
 

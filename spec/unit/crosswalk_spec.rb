@@ -7,18 +7,16 @@ describe Factual::Query::Crosswalk do
     @token = get_token
     @api = get_api(@token)
     @crosswalk = Factual::Query::Crosswalk.new(@api)
-    @base = "http://api.v3.factual.com/places/crosswalk?"
-  end
-
-  it "should be able to set the factual_id" do
-    @crosswalk.factual_id("abcde").rows
-    expected_url = @base + "factual_id=abcde"
-    CGI::unescape(@token.last_url).should == expected_url
+    @base = "http://api.v3.factual.com/t/crosswalk?"
   end
 
   it "should be able to set an 'only' value" do
     @crosswalk.only("yelp").rows
-    expected_url = @base + "only=yelp"
+    expected_url = @base + %{filters={"namespace":"yelp"}}
+    CGI::unescape(@token.last_url).should == expected_url
+
+    @crosswalk.only("yelp", "foursquare").rows
+    expected_url = @base + %{filters={"namespace":{"$in":["yelp","foursquare"]}}}
     CGI::unescape(@token.last_url).should == expected_url
   end
 
@@ -42,7 +40,7 @@ describe Factual::Query::Crosswalk do
 
   it "should be able to get the schema" do
     @crosswalk.schema
-    expected_url = "http://api.v3.factual.com/places/crosswalk/schema?"
+    expected_url = "http://api.v3.factual.com/t/crosswalk/schema?"
     CGI::unescape(@token.last_url).should == expected_url
   end
 
@@ -51,7 +49,7 @@ describe Factual::Query::Crosswalk do
   end
 
   it "should be able to fetch the path" do
-    @crosswalk.path.should == "places/crosswalk"
+    @crosswalk.path.should == "t/crosswalk"
   end
 
   it "should be able to fetch the params" do
