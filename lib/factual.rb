@@ -55,6 +55,10 @@ class Factual
     @api.raw_read(path)
   end
 
+  def diffs(view, params = {})
+    @api.diffs(view, params)
+  end
+
   def multi(queries)
     multi = Multi.new(@api, queries)
     multi.send

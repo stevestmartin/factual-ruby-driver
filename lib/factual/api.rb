@@ -3,7 +3,7 @@ require 'cgi'
 
 class Factual
   class API
-    VERSION = "1.2.1"
+    VERSION = "1.2.2"
     API_V3_HOST = "api.v3.factual.com"
     DRIVER_VERSION_TAG = "factual-ruby-driver-v" + VERSION
     PARAM_ALIASES = { :search => :q, :sort_asc => :sort }
@@ -32,6 +32,19 @@ class Factual
     def raw_read(path)
       payload = JSON.parse(make_request("http://#{@host}#{path}").body)
       handle_payload(payload)
+    end
+
+    def diffs(view_id, params = {})
+      start_date = (params[:start] || params["start"] || 0).to_i * 1000
+      end_date = (params[:end] || params["end"] || Time.now).to_i * 1000
+
+      path = "/t/#{view_id}/diffs?start=#{start_date}&end=#{end_date}"
+      url = "http://#{@host}#{path}"
+      resp = make_request(url)
+
+      resp.body.split("\n").collect do |rowJson|
+        row = JSON.parse(rowJson)
+      end
     end
 
     def full_path(action, path, params)
