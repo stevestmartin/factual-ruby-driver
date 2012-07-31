@@ -29,8 +29,19 @@ class Factual
       handle_request(:schema, query.path, query.params)["view"]
     end
 
-    def raw_read(path)
-      payload = JSON.parse(make_request("http://#{@host}#{path}").body)
+    def raw_get(path, query)
+      path = '/' + path unless path =~ /^\//
+      url = "http://#{@host}#{path}?#{query_string(query)}"
+      resp = make_request(url)
+      payload = JSON.parse(resp.body)
+      handle_payload(payload)
+    end
+
+    def raw_post(path, body)
+      path = '/' + path unless path =~ /^\//
+      url = "http://#{@host}#{path}"
+      resp = make_request(url, query_string(body), :post)
+      payload = JSON.parse(resp.body)
       handle_payload(payload)
     end
 

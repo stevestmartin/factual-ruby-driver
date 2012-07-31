@@ -699,17 +699,6 @@ You can query Factual for the detailed schema of any specific table in Factual. 
 factual.table("global").schema
 ````
 
-# Raw Read Queries
-
-You can perform any read queries documented in the Factual API using the
-raw read query. Just supply the full path (including the first
-forward-slash) and the request will be made using your OAuth token:
-
-````ruby
-# Find rows in the restaurant database whose name begins with "Star" and return both the data and a total count of the matched rows
-factual.read('/t/restaurants-us?filters={"name":{"$bw":"Star"}}&include_count=true')
-````
-
 # Monetize
 
 The <a href="http://developer.factual.com/display/docs/Places+API+-+Monetize">Monetize API</a> enables you to find deals for places in Factual's Global Places database.
@@ -747,6 +736,32 @@ diffs = @factual.diffs("places", :start => last_updated_date, :end => Time.now)
 diffs.each do |row|
   update_my_db(row)
 end
+````
+
+# Raw Queries
+
+This driver primarily offers convenience: it signs requests, builds conformant queries, and structures responses.
+
+## Raw GET
+
+Use for all GET operations, basically all queries and other read-only calls to the Factual service.
+
+````ruby
+# Find rows in the restaurant database whose name begins with "Star" and return both the data and a total count of the matched rows
+factual.raw_get('/t/restaurants-us', 
+    :filters => { 
+      :name => {"$bw" => "Star"}}, 
+    :include_count => true)
+````
+## Raw POST
+
+Use for all POST operations: primarily the Submit and Flag APIs.
+
+````ruby
+factual.raw_post('/t/2EH4Pz/f33527e0-a8b4-4808-a820-2686f18cb00c/flag', 
+    :user => "test_user", 
+    :problem => "spam", 
+    :comment => "What do you mean 'Urgghh'? I don't like spam!")
 ````
 
 # Debug Mode

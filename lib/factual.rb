@@ -51,8 +51,12 @@ class Factual
     Query::Geopulse.new(@api, lat, lng)
   end
 
-  def read(path)
-    @api.raw_read(path)
+  def raw_get(path, query={})
+    @api.raw_get(path, query)
+  end
+
+  def raw_post(path, body={})
+    @api.raw_post(path, body)
   end
 
   def diffs(view, params = {})
