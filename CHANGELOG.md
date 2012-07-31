@@ -3,6 +3,7 @@
 * changed raw read to raw_get 
 * added raw_post
 * moved README to wiki
+* added match
 
 ## v1.2.1
 * crosswalk endpoint change

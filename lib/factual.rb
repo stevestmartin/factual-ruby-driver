@@ -2,6 +2,7 @@ require 'oauth'
 require 'factual/api'
 require 'factual/query/table'
 require 'factual/query/facets'
+require 'factual/query/match'
 require 'factual/query/resolve'
 require 'factual/query/crosswalk'
 require 'factual/query/monetize'
@@ -37,6 +38,10 @@ class Factual
 
   def monetize
     Query::Monetize.new(@api)
+  end
+
+  def match(values)
+    Query::Match.new(@api, :values => values)
   end
 
   def resolve(values)
