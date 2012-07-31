@@ -1,7 +1,8 @@
-## v1.2.2
-* adding diffs
-* changing raw read to raw_get 
-* adding raw_post
+## v1.3
+* added diffs
+* changed raw read to raw_get 
+* added raw_post
+* moved README to wiki
 
 ## v1.2.1
 * crosswalk endpoint change
