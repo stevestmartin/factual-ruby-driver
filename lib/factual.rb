@@ -56,11 +56,11 @@ class Factual
     Query::Geopulse.new(@api, lat, lng)
   end
 
-  def raw_get(path, query={})
+  def get(path, query={})
     @api.raw_get(path, query)
   end
 
-  def raw_post(path, body={})
+  def post(path, body={})
     @api.raw_post(path, body)
   end
 

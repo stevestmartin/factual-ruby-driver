@@ -1,7 +1,7 @@
 ## v1.3
 * added diffs
-* changed raw read to raw_get 
-* added raw_post
+* changed raw read to get 
+* added raw post
 * moved README to wiki
 * added match
 
