@@ -22,11 +22,19 @@ Results are returned as Ruby Arrays of Hashes, where each Hash is a result recor
 
 ## Setup
 
-The driver's gems are hosted at [Rubygems.org](http://rubygems.org). You can install the factual-api gem as follows:
+The driver's gems are hosted at [Rubygems.org](http://rubygems.org). 
 
-`````bash
+You can install the factual-api gem as follows:
+
+````bash
 $ gem install factual-api
-`````
+````
+
+Or add one line to the Gemfile of your Rails project, and run `bundle`:
+
+````ruby
+gem 'factual-api'
+````
 
 Once the gem is installed, you can use it in your Ruby project like:
 
