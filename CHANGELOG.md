@@ -1,3 +1,13 @@
+## v1.3
+* added diffs
+* changed raw read to get 
+* added raw post
+* moved README to wiki
+* added match
+
+## v1.2.1
+* crosswalk endpoint change
+
 ## v1.2
 * releasing geo features, facets, writes, multi and monetize
 

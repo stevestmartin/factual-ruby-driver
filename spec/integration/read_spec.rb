@@ -21,6 +21,17 @@ describe "Read APIs" do
     end
   end
 
+  it "should be able to do a match query" do
+    matched = @factual.match("name" => "McDonalds",
+                            "address" => "10451 Santa Monica Blvd",
+                            "region" => "CA",
+                            "postcode" => "90025").first
+    if matched
+      matched.class.should == Hash
+      matched["factual_id"].should_not be_empty
+    end
+  end
+
   it "should be able to do a resolve query" do
     rows = @factual.resolve("name" => "McDonalds",
                             "address" => "10451 Santa Monica Blvd",

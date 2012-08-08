@@ -3,7 +3,7 @@ require 'cgi'
 
 class Factual
   class API
-    VERSION = "1.2"
+    VERSION = "1.3"
     API_V3_HOST = "api.v3.factual.com"
     DRIVER_VERSION_TAG = "factual-ruby-driver-v" + VERSION
     PARAM_ALIASES = { :search => :q, :sort_asc => :sort }
@@ -29,9 +29,33 @@ class Factual
       handle_request(:schema, query.path, query.params)["view"]
     end
 
-    def raw_read(path)
-      payload = JSON.parse(make_request("http://#{@host}#{path}").body)
+    def raw_get(path, query)
+      path = '/' + path unless path =~ /^\//
+      url = "http://#{@host}#{path}?#{query_string(query)}"
+      resp = make_request(url)
+      payload = JSON.parse(resp.body)
       handle_payload(payload)
+    end
+
+    def raw_post(path, body)
+      path = '/' + path unless path =~ /^\//
+      url = "http://#{@host}#{path}"
+      resp = make_request(url, query_string(body), :post)
+      payload = JSON.parse(resp.body)
+      handle_payload(payload)
+    end
+
+    def diffs(view_id, params = {})
+      start_date = (params[:start] || params["start"] || 0).to_i * 1000
+      end_date = (params[:end] || params["end"] || Time.now).to_i * 1000
+
+      path = "/t/#{view_id}/diffs?start=#{start_date}&end=#{end_date}"
+      url = "http://#{@host}#{path}"
+      resp = make_request(url)
+
+      resp.body.split("\n").collect do |rowJson|
+        row = JSON.parse(rowJson)
+      end
     end
 
     def full_path(action, path, params)

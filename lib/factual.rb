@@ -2,6 +2,7 @@ require 'oauth'
 require 'factual/api'
 require 'factual/query/table'
 require 'factual/query/facets'
+require 'factual/query/match'
 require 'factual/query/resolve'
 require 'factual/query/crosswalk'
 require 'factual/query/monetize'
@@ -28,14 +29,19 @@ class Factual
 
   def crosswalk(namespace_id, namespace = nil)
     if namespace
-      Query::Crosswalk.new(@api, :namespace_id => namespace_id, :namespace => namespace)
+      raise "DEPRECATED. For more information, please visit http://developer.factual.com/display/docs/Places+API+-+Crosswalk"
+      Query::Crosswalk.new(@api, :filters => {:namespace_id => namespace_id, :namespace => namespace})
     else
-      Query::Crosswalk.new(@api, :factual_id => namespace_id)
+      Query::Crosswalk.new(@api, :filters => {:factual_id => namespace_id})
     end
   end
 
   def monetize
     Query::Monetize.new(@api)
+  end
+
+  def match(values)
+    Query::Match.new(@api, :values => values)
   end
 
   def resolve(values)
@@ -50,8 +56,16 @@ class Factual
     Query::Geopulse.new(@api, lat, lng)
   end
 
-  def read(path)
-    @api.raw_read(path)
+  def get(path, query={})
+    @api.raw_get(path, query)
+  end
+
+  def post(path, body={})
+    @api.raw_post(path, body)
+  end
+
+  def diffs(view, params = {})
+    @api.diffs(view, params)
   end
 
   def multi(queries)

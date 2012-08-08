@@ -62,4 +62,11 @@ describe Factual::Query::Resolve do
   it "should be able to get a value at a specific index" do
     @resolve[1]["key"].should == "value2"
   end
+
+  it "should be able to run match" do
+    match = Factual::Query::Match.new(@api)
+    match.values({:name => "McDonalds"}).first
+    expected_url = "http://api.v3.factual.com/places/match?values={\"name\":\"McDonalds\"}"
+    CGI::unescape(@token.last_url).should == expected_url
+  end
 end

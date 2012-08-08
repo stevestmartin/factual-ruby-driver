@@ -41,7 +41,13 @@ describe Factual::API do
   end
 
   it "should be able to do a raw read" do
-    @api.raw_read("/t/foo?bar=baz")
-    @token.last_url.should == "http://api.v3.factual.com/t/foo?bar=baz"
+    @api.raw_get("t/foo", :bar => {"not" => "baz"})
+    @token.last_url.should == "http://api.v3.factual.com/t/foo?bar=%7B%22not%22%3A%22baz%22%7D"
+  end
+
+  it "should be able to do a raw post" do
+    @api.raw_post("t/foo", :bar => {"not" => "baz"})
+    @token.last_url.should == "http://api.v3.factual.com/t/foo"
+    @token.last_body.should == "bar=%7B%22not%22%3A%22baz%22%7D"
   end
 end
