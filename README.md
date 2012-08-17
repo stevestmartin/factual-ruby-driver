@@ -42,6 +42,7 @@ Once the gem is installed, you can use it in your Ruby project like:
 require 'factual'
 factual = Factual.new("YOUR_KEY", "YOUR_SECRET")
 ````
+If you don't have a Factual API account yet, [it's free and easy to get one](https://www.factual.com/api-keys/request).
   
 ## Simple Read Examples
 
