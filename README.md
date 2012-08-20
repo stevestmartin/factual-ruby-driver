@@ -42,6 +42,7 @@ Once the gem is installed, you can use it in your Ruby project like:
 require 'factual'
 factual = Factual.new("YOUR_KEY", "YOUR_SECRET")
 ````
+If you don't have a Factual API account yet, [it's free and easy to get one](https://www.factual.com/api-keys/request).
   
 ## Simple Read Examples
 
@@ -63,18 +64,6 @@ factual.table("restaurants-us")
 ````
 
 ## Simple Places Example
-
-````ruby
-# Concordance information of a place
-FACTUAL_ID = "110ace9f-80a7-47d3-9170-e9317624ebd9"
-query = factual.crosswalk(FACTUAL_ID)
-query.rows
-
-# Or specify a place with its namespace_id and namespace
-SIMPLEGEO_ID = "SG_6XIEi3qehN44LH8m8i86v0"
-query = factual.crosswalk(SIMPLEGEO_ID, :simplegeo)
-query.rows
-````
 
 ````ruby
 # Returns resolved entities as an array of hashes
