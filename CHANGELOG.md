@@ -1,3 +1,6 @@
+## v1.3.1
+* removed sugar crosswalk, switch to normal table
+
 ## v1.3
 * added diffs
 * changed raw read to get 
