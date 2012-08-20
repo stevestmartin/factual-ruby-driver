@@ -45,7 +45,7 @@ describe "Read APIs" do
   end
 
   it "should be able to do a crosswalk query" do
-    rows = @factual.crosswalk("110ace9f-80a7-47d3-9170-e9317624ebd9").rows
+    rows = @factual.table("crosswalk").filters(:factual_id => "110ace9f-80a7-47d3-9170-e9317624ebd9").rows
     rows.class.should == Array
     rows.each do |row|
       row.class.should == Hash

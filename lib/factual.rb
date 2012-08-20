@@ -4,7 +4,6 @@ require 'factual/query/table'
 require 'factual/query/facets'
 require 'factual/query/match'
 require 'factual/query/resolve'
-require 'factual/query/crosswalk'
 require 'factual/query/monetize'
 require 'factual/query/geocode'
 require 'factual/query/geopulse'
@@ -25,15 +24,6 @@ class Factual
 
   def facets(table_id_or_alias)
     Query::Facets.new(@api, "t/#{table_id_or_alias}")
-  end
-
-  def crosswalk(namespace_id, namespace = nil)
-    if namespace
-      raise "DEPRECATED. For more information, please visit http://developer.factual.com/display/docs/Places+API+-+Crosswalk"
-      Query::Crosswalk.new(@api, :filters => {:namespace_id => namespace_id, :namespace => namespace})
-    else
-      Query::Crosswalk.new(@api, :filters => {:factual_id => namespace_id})
-    end
   end
 
   def monetize
