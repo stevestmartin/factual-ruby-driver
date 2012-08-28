@@ -9,6 +9,7 @@ require 'factual/query/geocode'
 require 'factual/query/geopulse'
 require 'factual/write/flag'
 require 'factual/write/submit'
+require 'factual/write/insert'
 require 'factual/multi'
 
 class Factual
@@ -84,6 +85,19 @@ class Factual
       :factual_id => factual_id,
       :values => values }
     Write::Submit.new(@api, submit_params)
+  end
+
+  def insert(*params)
+    values = {}
+    values = params.last if params.last.is_a? Hash
+
+    table, user, factual_id = params
+    insert_params = {
+      :table => table,
+      :user => user,
+      :factual_id => factual_id,
+      :values => values }
+    Write::Insert.new(@api, insert_params)
   end
 
   private

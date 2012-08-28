@@ -1,5 +1,6 @@
 ## v1.3.2
 * added integration test for unicode queries
+* added insert
 
 ## v1.3.1
 * removed sugar crosswalk, switch to normal table
