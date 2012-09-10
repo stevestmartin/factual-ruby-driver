@@ -1,6 +1,7 @@
 ## v1.3.2
 * added integration test for unicode queries
 * added insert
+* changed factual-auth yaml file from under the integration test folder to ~/.factual
 
 ## v1.3.1
 * removed sugar crosswalk, switch to normal table

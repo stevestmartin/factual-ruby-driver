@@ -125,7 +125,7 @@ class Factual
       puts "--- Driver version: #{DRIVER_VERSION_TAG}"
       puts "--- request debug ---"
       puts "req url: #{url}"
-      puts "req method: #{method.upcase}"
+      puts "req method: #{method.to_s.upcase}"
       puts "req headers: #{JSON.pretty_generate(headers)}"
       puts "req body: #{body}" if body
       puts "---------------------"

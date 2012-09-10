@@ -1,3 +1,6 @@
+require 'rubygems'
+gem 'oauth'
+
 require 'oauth'
 require 'factual/api'
 require 'factual/query/table'
