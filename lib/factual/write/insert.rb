@@ -5,7 +5,7 @@ class Factual
     class Insert < Base
       VALID_KEYS = [
         :table, :user,
-        :factual_id, :values,
+        :values,
         :comment, :reference
       ]
 
@@ -21,11 +21,7 @@ class Factual
       end
 
       def path
-        if @params[:factual_id]
-          "/t/#{@params[:table]}/#{@params[:factual_id]}/insert"
-        else
-          "/t/#{@params[:table]}/insert"
-        end
+        "/t/#{@params[:table]}/insert"
       end
 
       private

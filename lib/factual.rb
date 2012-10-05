@@ -79,7 +79,7 @@ class Factual
 
   def submit(*params)
     values = {}
-    values = params.last if params.last.is_a? Hash
+    values = params.pop if params.last.is_a? Hash
 
     table, user, factual_id = params
     submit_params = {
@@ -92,13 +92,12 @@ class Factual
 
   def insert(*params)
     values = {}
-    values = params.last if params.last.is_a? Hash
+    values = params.pop if params.last.is_a? Hash
 
-    table, user, factual_id = params
+    table, user = params
     insert_params = {
       :table => table,
       :user => user,
-      :factual_id => factual_id,
       :values => values }
     Write::Insert.new(@api, insert_params)
   end
