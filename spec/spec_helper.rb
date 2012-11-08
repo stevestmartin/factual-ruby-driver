@@ -7,7 +7,7 @@ RSpec.configure do |c|
     c.mock_with :rspec
 end
 
-CREDENTIALS_FILE = File.expand_path('./integration/key_secret.yaml', File.dirname(__FILE__))
+CREDENTIALS_FILE = File.expand_path('~/.factual/factual-auth.yaml')
 
 LAT = 34.06021
 LNG = -118.41828

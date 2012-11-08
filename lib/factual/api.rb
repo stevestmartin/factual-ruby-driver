@@ -1,16 +1,18 @@
 require 'json'
 require 'cgi'
+require 'timeout'
 
 class Factual
   class API
-    VERSION = "1.3.1"
+    VERSION = "1.3.2"
     API_V3_HOST = "api.v3.factual.com"
     DRIVER_VERSION_TAG = "factual-ruby-driver-v" + VERSION
     PARAM_ALIASES = { :search => :q, :sort_asc => :sort }
 
-    def initialize(access_token, debug_mode = false, host = nil)
+    def initialize(access_token, debug_mode = false, host = nil, timeout = nil)
       @access_token = access_token
       @debug_mode = debug_mode
+      @timeout = timeout
       @host = host || API_V3_HOST
     end
 
@@ -92,9 +94,9 @@ class Factual
       headers = { "X-Factual-Lib" => DRIVER_VERSION_TAG }
 
       res = if (method == :get)
-              @access_token.get(url, headers)
+              Timeout::timeout(@timeout){ @access_token.get(url, headers) }
             elsif (method == :post)
-              @access_token.post(url, body, headers)
+              Timeout::timeout(@timeout){ @access_token.post(url, body, headers) }
             else
               raise StandardError.new("Unknown http method")
             end
@@ -125,7 +127,7 @@ class Factual
       puts "--- Driver version: #{DRIVER_VERSION_TAG}"
       puts "--- request debug ---"
       puts "req url: #{url}"
-      puts "req method: #{method.upcase}"
+      puts "req method: #{method.to_s.upcase}"
       puts "req headers: #{JSON.pretty_generate(headers)}"
       puts "req body: #{body}" if body
       puts "---------------------"

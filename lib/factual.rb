@@ -1,3 +1,6 @@
+require 'rubygems'
+gem 'oauth'
+
 require 'oauth'
 require 'factual/api'
 require 'factual/query/table'
@@ -9,13 +12,16 @@ require 'factual/query/geocode'
 require 'factual/query/geopulse'
 require 'factual/write/flag'
 require 'factual/write/submit'
+require 'factual/write/clear'
+require 'factual/write/insert'
 require 'factual/multi'
 
 class Factual
   def initialize(key, secret, options = {})
     debug_mode = options[:debug].nil? ? false : options[:debug]
     host = options[:host]
-    @api = API.new(generate_token(key, secret), debug_mode, host)
+    timeout = options[:timeout]
+    @api = API.new(generate_token(key, secret), debug_mode, host, timeout)
   end
 
   def table(table_id_or_alias)
@@ -63,7 +69,21 @@ class Factual
     multi.send
   end
 
-  def flag(table, factual_id, problem, user)
+  def clear(*params)
+    fields = []
+    fields = params.pop if params.last.is_a? Array
+
+    table, user, factual_id = params
+    clear_params = {
+      :table => table,
+      :factual_id => factual_id,
+      :fields => fields.join(","),
+      :user => user }
+
+    Write::Clear.new(@api, clear_params)
+  end
+
+  def flag(table, user, factual_id, problem)
     flag_params = {
       :table => table,
       :factual_id => factual_id,
@@ -75,7 +95,7 @@ class Factual
 
   def submit(*params)
     values = {}
-    values = params.last if params.last.is_a? Hash
+    values = params.pop if params.last.is_a? Hash
 
     table, user, factual_id = params
     submit_params = {
@@ -84,6 +104,18 @@ class Factual
       :factual_id => factual_id,
       :values => values }
     Write::Submit.new(@api, submit_params)
+  end
+
+  def insert(*params)
+    values = {}
+    values = params.pop if params.last.is_a? Hash
+
+    table, user = params
+    insert_params = {
+      :table => table,
+      :user => user,
+      :values => values }
+    Write::Insert.new(@api, insert_params)
   end
 
   private
