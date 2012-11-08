@@ -69,11 +69,15 @@ class Factual
     multi.send
   end
 
-  def clear(table, user, factual_id, fields)
+  def clear(*params)
+    fields = []
+    fields = params.pop if params.last.is_a? Array
+
+    table, user, factual_id = params
     clear_params = {
       :table => table,
       :factual_id => factual_id,
-      :fields => fields.to_a.join(","),
+      :fields => fields.join(","),
       :user => user }
 
     Write::Clear.new(@api, clear_params)
