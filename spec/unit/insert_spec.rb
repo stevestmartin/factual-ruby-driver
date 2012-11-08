@@ -32,10 +32,14 @@ describe Factual::Write::Insert do
     @token.last_body.should == "user=user456&values=%7B%22name%22%3A%22McDonalds%22%7D"
   end
 
-  it "should be able to set a factual_id" do
-    @insert.factual_id("1234567890").write
-    @token.last_url.should == "http://api.v3.factual.com/t/global/1234567890/insert"
-    @token.last_body.should == "user=user123&values=%7B%22name%22%3A%22McDonalds%22%7D"
+  it "should not be able to set a factual_id" do
+    raised = false
+    begin 
+      @insert.factual_id("1234567890").write
+    rescue
+      raised = true
+    end
+    raised.should == true
   end
 
   it "should be able to set values" do
@@ -62,10 +66,6 @@ describe Factual::Write::Insert do
 
   it "should be able to return a valid path if no factual_id is set" do
     @insert.path.should == "/t/global/insert"
-  end
-
-  it "should be able to return a valid path if a factual_id is set" do
-    @insert.factual_id("foo").path.should == "/t/global/foo/insert"
   end
 
   it "should be able to return a body" do

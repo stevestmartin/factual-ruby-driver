@@ -12,6 +12,7 @@ require 'factual/query/geocode'
 require 'factual/query/geopulse'
 require 'factual/write/flag'
 require 'factual/write/submit'
+require 'factual/write/clear'
 require 'factual/write/insert'
 require 'factual/multi'
 
@@ -19,7 +20,8 @@ class Factual
   def initialize(key, secret, options = {})
     debug_mode = options[:debug].nil? ? false : options[:debug]
     host = options[:host]
-    @api = API.new(generate_token(key, secret), debug_mode, host)
+    timeout = options[:timeout]
+    @api = API.new(generate_token(key, secret), debug_mode, host, timeout)
   end
 
   def table(table_id_or_alias)
@@ -65,6 +67,16 @@ class Factual
   def multi(queries)
     multi = Multi.new(@api, queries)
     multi.send
+  end
+
+  def clear(table, factual_id, fields, user)
+    clear_params = {
+      :table => table,
+      :factual_id => factual_id,
+      :fields => fields.to_a.join(","),
+      :user => user }
+
+    Write::Clear.new(@api, clear_params)
   end
 
   def flag(table, factual_id, problem, user)

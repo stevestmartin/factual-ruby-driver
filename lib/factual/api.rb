@@ -8,9 +8,10 @@ class Factual
     DRIVER_VERSION_TAG = "factual-ruby-driver-v" + VERSION
     PARAM_ALIASES = { :search => :q, :sort_asc => :sort }
 
-    def initialize(access_token, debug_mode = false, host = nil)
+    def initialize(access_token, debug_mode = false, host = nil, timeout = nil)
       @access_token = access_token
       @debug_mode = debug_mode
+      @timeout = timeout
       @host = host || API_V3_HOST
     end
 
