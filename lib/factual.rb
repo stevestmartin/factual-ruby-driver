@@ -69,7 +69,7 @@ class Factual
     multi.send
   end
 
-  def clear(table, factual_id, fields, user)
+  def clear(table, user, factual_id, fields)
     clear_params = {
       :table => table,
       :factual_id => factual_id,
@@ -79,7 +79,7 @@ class Factual
     Write::Clear.new(@api, clear_params)
   end
 
-  def flag(table, factual_id, problem, user)
+  def flag(table, user, factual_id, problem)
     flag_params = {
       :table => table,
       :factual_id => factual_id,

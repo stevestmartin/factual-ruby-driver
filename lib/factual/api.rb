@@ -1,5 +1,6 @@
 require 'json'
 require 'cgi'
+require 'timeout'
 
 class Factual
   class API
@@ -93,9 +94,9 @@ class Factual
       headers = { "X-Factual-Lib" => DRIVER_VERSION_TAG }
 
       res = if (method == :get)
-              @access_token.get(url, headers)
+              Timeout::timeout(@timeout){ @access_token.get(url, headers) }
             elsif (method == :post)
-              @access_token.post(url, body, headers)
+              Timeout::timeout(@timeout){ @access_token.post(url, body, headers) }
             else
               raise StandardError.new("Unknown http method")
             end
