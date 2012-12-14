@@ -9,7 +9,7 @@ class Factual
         super(api, params)
       end
 
-      [:values, :include_count].each do |param|
+      [:values].each do |param|
         define_method(param) do |*args|
           self.class.new(@api, @params.merge(param => form_value(args)))
         end
