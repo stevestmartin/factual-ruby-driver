@@ -16,7 +16,7 @@ class Factual
     def send
       res = @api.get(self)
       @queries.each do |name, query|
-        query.populate(res[name])
+        query.populate(res[name.to_s])
         @responses[name] = query
       end
 
