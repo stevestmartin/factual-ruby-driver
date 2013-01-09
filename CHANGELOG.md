@@ -1,3 +1,6 @@
+## v1.3.3
+* fixed bug in multi #12
+
 ## v1.3.2
 * added integration test for unicode queries
 * added insert
