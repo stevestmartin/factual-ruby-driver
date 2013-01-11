@@ -22,9 +22,7 @@ class Factual
     end
 
     def post(request)
-      response = make_request("http://" + @host + request.path, request.body, :post)
-      payload = JSON.parse(response.body)
-      handle_payload(payload)
+      handle_request(nil, request.path, request.body, :post)
     end
 
     def schema(query)
@@ -68,12 +66,17 @@ class Factual
 
     private
 
-    def handle_request(action, path, params)
-      url = "http://#{@host}" + full_path(action, path, params)
+    def handle_request(action, path, params, method=:get)
+      if (method == :get)
+        url = "http://#{@host}" + full_path(action, path, params)
+        req = make_request(url)
+      else
+        url = "http://#{@host}#{path}"
+        req = make_request(url, params, :post)
+      end
+      payload = JSON.parse(req.body)
 
-      payload = JSON.parse(make_request(url).body)
-
-      if (path == :multi)
+      if (path == '/multi')
          payload.inject({}) do |res, item|
            name, p = item
            res[name] = handle_payload(p)
