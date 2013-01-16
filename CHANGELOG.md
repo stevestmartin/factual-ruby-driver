@@ -1,3 +1,6 @@
+## v1.3.4
+* multi requests as POST
+
 ## v1.3.3
 * fixed bug in multi #12
 
