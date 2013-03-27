@@ -1,6 +1,6 @@
 # About
 
-This is the Factual supported Ruby driver for [Factual's public API](http://developer.factual.com/display/docs/Factual+Developer+APIs+Version+3).
+This is the Factual supported Ruby driver for [Factual's public API](http://developer.factual.com).
 
 
 # Overview
@@ -53,7 +53,7 @@ factual.table("places").filters("name" => {"$bw" => "starbucks"}).rows
 
 `````ruby
 # Return entity names and non-blank websites from the Global dataset, for entities located in Thailand
-factual.table("global").select(:name, :website)
+factual.table("places").select(:name, :website)
   .filters({"country" => "TH", "website" => {"$blank" => false}})
 ````
 
@@ -91,8 +91,8 @@ query.first["income"]
 ## More Read Examples
 
 ````ruby
-# 1. Specify the table Global
-query = factual.table("global")
+# 1. Specify the table Global Places
+query = factual.table("places")
 ````
 
 ````ruby
