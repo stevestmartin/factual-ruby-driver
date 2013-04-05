@@ -22,8 +22,12 @@ class Factual
         rows[index]
       end
 
-      def rows
+      def data
         response["data"]
+      end
+
+      def rows
+        data
       end
 
       def total_count

@@ -15,6 +15,12 @@ describe Factual::API do
     @token.last_url.should == "http://api.v3.factual.com/t/places?q=foo"
   end
 
+  it "should be able to get a row" do
+    table = Factual::Query::Table.new(@api, "t/places")
+    table.row("id123")
+    @token.last_url.should == "http://api.v3.factual.com/t/places/id123"
+  end
+
   it "should be able to post a query" do
     flag_params = {
       :table => "global",
@@ -37,7 +43,7 @@ describe Factual::API do
   it "should be able to get the schema for a table" do
     table = Factual::Query::Table.new(@api, "t/places")
     @api.schema(table)
-    @token.last_url.should == "http://api.v3.factual.com/t/places/schema?"
+    @token.last_url.should == "http://api.v3.factual.com/t/places/schema"
   end
 
   it "should be able to do a raw read" do

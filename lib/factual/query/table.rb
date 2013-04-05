@@ -43,6 +43,12 @@ class Factual
         offset = (page_number - 1) * limit
         Table.new(@api, @path, @params.merge(:limit => limit, :offset => offset))
       end
+
+      def row(factual_id)
+        @path += "/#{factual_id}"
+        @params = {}
+        return self.first
+      end
     end
   end
 end

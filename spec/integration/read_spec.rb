@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'yaml'
 
 describe "Read APIs" do
+  FACTUAL_ID = "110ace9f-80a7-47d3-9170-e9317624ebd9"
+
   before(:all) do
     credentials = YAML.load(File.read(CREDENTIALS_FILE))
     key = credentials["key"]
@@ -9,6 +11,12 @@ describe "Read APIs" do
     @factual = Factual.new(key, secret)
   end
 
+  it "should be able to get a row" do
+    row = @factual.table("places-us").row(FACTUAL_ID)
+    row.class.should == Hash
+    row.keys.should_not be_empty
+    row['factual_id'].should == FACTUAL_ID
+  end
   it "should be able to do a table query" do
     rows = @factual.table("places").search("sushi", "sashimi")
       .filters("category" => "Food & Beverage > Restaurants")
@@ -45,7 +53,7 @@ describe "Read APIs" do
   end
 
   it "should be able to do a crosswalk query" do
-    rows = @factual.table("crosswalk").filters(:factual_id => "110ace9f-80a7-47d3-9170-e9317624ebd9").rows
+    rows = @factual.table("crosswalk").filters(:factual_id => FACTUAL_ID).rows
     rows.class.should == Array
     rows.each do |row|
       row.class.should == Hash
@@ -61,18 +69,18 @@ describe "Read APIs" do
 
   it "should be able to do geopulse queries" do
     query = @factual.geopulse(LAT, LNG)
-    row = query.first
+    row = query.data['demographics']
     row.class.should == Hash
-    row['age_by_gender'].class.should == Hash
+    row['area_statistics'].class.should == Hash
     row['income'].class.should == Hash
-    row['race'].class.should == Hash
+    row['race_and_ethnicity'].class.should == Hash
 
-    query = query.select('race', 'income')
-    row = query.first
+    query = query.select('area_statistics', 'income')
+    row = query.data['demographics']
     row.class.should == Hash
-    row['age_by_gender'].class.should == NilClass
+    row['area_statistics'].class.should == Hash
     row['income'].class.should == Hash
-    row['race'].class.should == Hash
+    row['race_and_ethnicity'].class.should == NilClass
   end
 
   it "should be able to do a monetize query" do

@@ -4,7 +4,7 @@ require 'timeout'
 
 class Factual
   class API
-    VERSION = "1.3.4"
+    VERSION = "1.3.5"
     API_V3_HOST = "api.v3.factual.com"
     DRIVER_VERSION_TAG = "factual-ruby-driver-v" + VERSION
     PARAM_ALIASES = { :search => :q, :sort_asc => :sort }
@@ -31,7 +31,11 @@ class Factual
 
     def raw_get(path, query)
       path = '/' + path unless path =~ /^\//
-      url = "http://#{@host}#{path}?#{query_string(query)}"
+      url = "http://#{@host}#{path}"
+
+      qs = query_string(query)
+      url += "?#{qs}" unless qs.empty?
+
       resp = make_request(url)
       payload = JSON.parse(resp.body)
       handle_payload(payload)
@@ -61,7 +65,11 @@ class Factual
     def full_path(action, path, params)
       fp = "/#{path}"
       fp += "/#{action}" unless action == :read
-      fp += "?#{query_string(params)}"
+
+      qs = query_string(params)
+      fp += "?#{qs}" unless qs.empty?
+
+      fp
     end
 
     private

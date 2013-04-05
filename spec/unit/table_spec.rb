@@ -88,9 +88,15 @@ describe Factual::Query::Table do
     CGI::unescape(@token.last_url).should == expected_url
   end
 
+  it "should be able to get a row" do
+    @table.row('id123')
+    expected_url = "http://api.v3.factual.com/t/places/id123"
+    CGI::unescape(@token.last_url).should == expected_url
+  end
+
   it "should be able to get the schema" do
     @table.schema
-    expected_url = "http://api.v3.factual.com/t/places/schema?"
+    expected_url = "http://api.v3.factual.com/t/places/schema"
     CGI::unescape(@token.last_url).should == expected_url
   end
 

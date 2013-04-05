@@ -1,3 +1,7 @@
+## v1.3.5
+* get a row
+* change the integration test of geopulse to match the new payload
+
 ## v1.3.4
 * multi requests as POST
 
