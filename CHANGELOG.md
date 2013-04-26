@@ -1,3 +1,6 @@
+## v1.3.7
+* adding clear_blanks param to clear
+
 ## v1.3.6
 * change the endpoint of geopulse from /places/geopulse to /geopulse/context
 * change the endpoint of resolve from /places/resolve to /t/places/resolve

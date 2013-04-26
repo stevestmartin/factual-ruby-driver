@@ -6,6 +6,7 @@ class Factual
       VALID_KEYS = [
         :table, :user,
         :factual_id, :fields,
+        :clear_blanks,
         :comment, :reference
       ]
 
