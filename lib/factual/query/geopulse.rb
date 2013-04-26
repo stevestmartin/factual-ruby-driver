@@ -4,7 +4,7 @@ class Factual
   module Query
     class Geopulse < Base
       def initialize(api, lat, lng, params={})
-        @path = "places/geopulse"
+        @path = "geopulse/context"
         @action = :read
         @lat = lat
         @lng = lng
