@@ -1,3 +1,6 @@
+## v1.3.6
+* change the endpoint of geopulse from /places/geopulse to /geopulse/context
+
 ## v1.3.5
 * get a row
 * change the integration test of geopulse to match the new payload
