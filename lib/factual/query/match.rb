@@ -4,7 +4,7 @@ class Factual
   module Query
     class Match < Base
       def initialize(api, params = {})
-        @path = "places/match"
+        @path = "t/places/match"
         @action = :read
         super(api, params)
       end

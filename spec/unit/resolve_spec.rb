@@ -7,7 +7,7 @@ describe Factual::Query::Resolve do
     @token = get_token
     @api = get_api(@token)
     @resolve = Factual::Query::Resolve.new(@api)
-    @base = "http://api.v3.factual.com/places/resolve?"
+    @base = "http://api.v3.factual.com/t/places/resolve?"
   end
 
   it "should be able to set values" do
@@ -27,7 +27,7 @@ describe Factual::Query::Resolve do
   end
 
   it "should be able to fetch the path" do
-    @resolve.path.should == "places/resolve"
+    @resolve.path.should == "t/places/resolve"
   end
 
   it "should be able to fetch the rows" do
@@ -49,7 +49,7 @@ describe Factual::Query::Resolve do
   it "should be able to run match" do
     match = Factual::Query::Match.new(@api)
     match.values({:name => "McDonalds"}).first
-    expected_url = "http://api.v3.factual.com/places/match?values={\"name\":\"McDonalds\"}"
+    expected_url = "http://api.v3.factual.com/t/places/match?values={\"name\":\"McDonalds\"}"
     CGI::unescape(@token.last_url).should == expected_url
   end
 end

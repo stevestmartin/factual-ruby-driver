@@ -4,7 +4,7 @@ class Factual
   module Query
     class Resolve < Base
       def initialize(api, params = {})
-        @path = "places/resolve"
+        @path = "t/places/resolve"
         @action = :read
         super(api, params)
       end

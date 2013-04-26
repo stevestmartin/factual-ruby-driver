@@ -1,5 +1,7 @@
 ## v1.3.6
 * change the endpoint of geopulse from /places/geopulse to /geopulse/context
+* change the endpoint of resolve from /places/resolve to /t/places/resolve
+* change the endpoint of match from /places/match to /t/places/match
 
 ## v1.3.5
 * get a row
