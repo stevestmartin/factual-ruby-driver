@@ -135,6 +135,8 @@ query.total_count
 
 # Where to Get Help
 
+https://github.com/Factual/factual-ruby-driver/wiki/Debug-and-Support
+
 If you think you've identified a specific bug in this driver, please file an issue in the github repo. Please be as specific as you can, including:
 
   * What you did to surface the bug
