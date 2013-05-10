@@ -8,7 +8,7 @@ class Factual
         :filters, :search, :geo, 
         :select, 
         :limit, :min_count,
-        :include_count
+        :include_count, :user
       ] 
 
       def initialize(api, path, params = {})

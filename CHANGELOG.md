@@ -1,3 +1,6 @@
+## v1.3.8
+* adding user param for table and facets #15
+
 ## v1.3.7
 * adding clear_blanks param to clear
 
