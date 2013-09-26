@@ -1,5 +1,3 @@
-require 'factual/query/base'
-
 class Factual
   module Query
     class Match < Base

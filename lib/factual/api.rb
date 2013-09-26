@@ -1,7 +1,3 @@
-require 'json'
-require 'cgi'
-require 'timeout'
-
 class Factual
   class API
     VERSION = "1.3.8"

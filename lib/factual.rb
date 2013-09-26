@@ -1,20 +1,27 @@
 require 'rubygems'
 gem 'oauth'
 
+require 'json'
+require 'cgi'
+require 'timeout'
+
 require 'oauth'
-require 'factual/api'
-require 'factual/query/table'
-require 'factual/query/facets'
-require 'factual/query/match'
-require 'factual/query/resolve'
-require 'factual/query/monetize'
-require 'factual/query/geocode'
-require 'factual/query/geopulse'
-require 'factual/write/flag'
-require 'factual/write/submit'
-require 'factual/write/clear'
-require 'factual/write/insert'
-require 'factual/multi'
+
+require File.expand_path('../factual/api', __FILE__)
+require File.expand_path('../factual/query/base', __FILE__)
+require File.expand_path('../factual/query/table', __FILE__)
+require File.expand_path('../factual/query/facets', __FILE__)
+require File.expand_path('../factual/query/match', __FILE__)
+require File.expand_path('../factual/query/resolve', __FILE__)
+require File.expand_path('../factual/query/monetize', __FILE__)
+require File.expand_path('../factual/query/geocode', __FILE__)
+require File.expand_path('../factual/query/geopulse', __FILE__)
+require File.expand_path('../factual/write/base', __FILE__)
+require File.expand_path('../factual/write/flag', __FILE__)
+require File.expand_path('../factual/write/submit', __FILE__)
+require File.expand_path('../factual/write/clear', __FILE__)
+require File.expand_path('../factual/write/insert', __FILE__)
+require File.expand_path('../factual/multi', __FILE__)
 
 class Factual
   def initialize(key, secret, options = {})
