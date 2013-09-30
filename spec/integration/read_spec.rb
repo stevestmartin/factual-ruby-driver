@@ -33,6 +33,7 @@ describe "Read APIs" do
     matched = @factual.match("name" => "McDonalds",
                             "address" => "10451 Santa Monica Blvd",
                             "region" => "CA",
+                            "country" => "us",
                             "postcode" => "90025").first
     if matched
       matched.class.should == Hash
@@ -83,21 +84,9 @@ describe "Read APIs" do
     row['race_and_ethnicity'].class.should == NilClass
   end
 
-  it "should be able to do a monetize query" do
-    rows = @factual.monetize.rows
-    rows.class.should == Array
-    rows.each do |row|
-      row.class.should == Hash
-      row.keys.should_not be_empty
-    end
-  end
-
-  it "should be able to report a invalid field error" do
-    begin
-      @factual.monetize.filters("country" => "US").rows
-    rescue StandardError => e
-      JSON.parse(e.to_s)["error_type"].should == "InvalidFilterArgument"
-    end
+  it "should redirect for deprecated endpoints" do
+    row = @factual.table("places").row("1c87c781-1fb9-40d0-b9b1-1e140277eb2b")
+    row["postcode"].should == "90067"
   end
 
 end

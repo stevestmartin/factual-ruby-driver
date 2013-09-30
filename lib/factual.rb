@@ -13,7 +13,6 @@ require File.expand_path('../factual/query/table', __FILE__)
 require File.expand_path('../factual/query/facets', __FILE__)
 require File.expand_path('../factual/query/match', __FILE__)
 require File.expand_path('../factual/query/resolve', __FILE__)
-require File.expand_path('../factual/query/monetize', __FILE__)
 require File.expand_path('../factual/query/geocode', __FILE__)
 require File.expand_path('../factual/query/geopulse', __FILE__)
 require File.expand_path('../factual/write/base', __FILE__)
@@ -37,10 +36,6 @@ class Factual
 
   def facets(table_id_or_alias)
     Query::Facets.new(@api, "t/#{table_id_or_alias}")
-  end
-
-  def monetize
-    Query::Monetize.new(@api)
   end
 
   def match(values)

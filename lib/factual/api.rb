@@ -109,12 +109,12 @@ class Factual
               raise StandardError.new("Unknown http method")
             end
 
-      if res.code == '301'
-        res = make_request(res['location'])
-      end
-
       elapsed_time = (Time.now - start_time) * 1000
       debug(url, method, headers, body, res, elapsed_time) if @debug_mode
+
+      if res.code == '301' && res['location']
+        res = make_request(res['location'])
+      end
 
       res
     end

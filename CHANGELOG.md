@@ -1,3 +1,7 @@
+## v1.3.9
+* adding support for following redirects
+* sunsetting monetize
+
 ## v1.3.8
 * adding user param for table and facets #15
 
