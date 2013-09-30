@@ -1,5 +1,3 @@
-require 'factual/write/base'
-
 class Factual
   module Write
     class Clear < Base

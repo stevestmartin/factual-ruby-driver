@@ -1,10 +1,6 @@
-require 'json'
-require 'cgi'
-require 'timeout'
-
 class Factual
   class API
-    VERSION = "1.3.8"
+    VERSION = "1.3.9"
     API_V3_HOST = "api.v3.factual.com"
     DRIVER_VERSION_TAG = "factual-ruby-driver-v" + VERSION
     PARAM_ALIASES = { :search => :q, :sort_asc => :sort }
@@ -115,6 +111,10 @@ class Factual
 
       elapsed_time = (Time.now - start_time) * 1000
       debug(url, method, headers, body, res, elapsed_time) if @debug_mode
+
+      if res.code == '301' && res['location']
+        res = make_request(res['location'])
+      end
 
       res
     end
