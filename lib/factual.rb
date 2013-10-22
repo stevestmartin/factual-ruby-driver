@@ -17,6 +17,7 @@ require File.expand_path('../factual/query/geocode', __FILE__)
 require File.expand_path('../factual/query/geopulse', __FILE__)
 require File.expand_path('../factual/write/base', __FILE__)
 require File.expand_path('../factual/write/flag', __FILE__)
+require File.expand_path('../factual/write/boost', __FILE__)
 require File.expand_path('../factual/write/submit', __FILE__)
 require File.expand_path('../factual/write/clear', __FILE__)
 require File.expand_path('../factual/write/insert', __FILE__)
@@ -83,6 +84,16 @@ class Factual
       :user => user }
 
     Write::Clear.new(@api, clear_params)
+  end
+
+  def boost(table, user, factual_id, q)
+    boost_params = {
+      :table => table,
+      :factual_id => factual_id,
+      :q => q,
+      :user => user }
+
+    Write::Boost.new(@api, boost_params)
   end
 
   def flag(table, user, factual_id, problem)

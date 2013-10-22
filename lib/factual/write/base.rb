@@ -4,6 +4,7 @@ class Factual
       def initialize(api, params)
         @api = api
         @params = params
+        @params_on_path = [:table, :factual_id]
       end
 
       def path
@@ -11,7 +12,7 @@ class Factual
       end
 
       def body
-        keys = @params.keys.reject { |key| [:table, :factual_id].include?(key) }
+        keys = @params.keys.reject { |key| @params_on_path.include?(key) }
         keys.map { |key| "#{key}=#{CGI.escape(stringify(@params[key]))}" }.join("&")
       end
 

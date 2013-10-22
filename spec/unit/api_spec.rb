@@ -21,7 +21,19 @@ describe Factual::API do
     @token.last_url.should == "http://api.v3.factual.com/t/places/id123"
   end
 
-  it "should be able to post a query" do
+  it "should be able to post a boost" do
+    flag_params = {
+      :table => "places-us",
+      :factual_id => "id123",
+      :q => "Coffee",
+      :user => "user123" }
+    flag = Factual::Write::Boost.new(@api, flag_params)
+    @api.post(flag)
+    @token.last_url.should == "http://api.v3.factual.com/t/places-us/boost"
+    @token.last_body.should == "factual_id=id123&q=Coffee&user=user123"
+  end
+
+  it "should be able to post a flag" do
     flag_params = {
       :table => "global",
       :factual_id => "id123",
