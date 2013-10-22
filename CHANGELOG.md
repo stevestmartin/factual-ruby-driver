@@ -1,3 +1,6 @@
+## v1.3.10
+* adding function for boost
+
 ## v1.3.9
 * adding support for following redirects
 * sunsetting monetize

@@ -20,6 +20,10 @@ class MockAccessToken
       @action = action
     end
 
+    def code
+      200
+    end
+
     def body
       { "status" => "ok", "response" => response }.to_json
     end
