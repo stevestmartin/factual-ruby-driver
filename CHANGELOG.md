@@ -1,3 +1,6 @@
+## v1.3.11
+* adding support for applying a request header
+
 ## v1.3.10
 * adding function for boost
 
