@@ -17,6 +17,16 @@ describe "Read APIs" do
     row.keys.should_not be_empty
     row['factual_id'].should == FACTUAL_ID
   end
+
+  it "should be able to apply a header" do
+    @factual.apply_header('X-MyHeader', 'blahblah')
+
+    row = @factual.table("places-us").row(FACTUAL_ID)
+    row.class.should == Hash
+    row.keys.should_not be_empty
+    row['factual_id'].should == FACTUAL_ID
+  end
+
   it "should be able to do a table query" do
     rows = @factual.table("places").search("sushi", "sashimi")
       .filters("category" => "Food & Beverage > Restaurants")

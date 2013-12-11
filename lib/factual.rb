@@ -31,6 +31,10 @@ class Factual
     @api = API.new(generate_token(key, secret), debug_mode, host, timeout)
   end
 
+  def apply_header(key, value)
+    @api.apply_header(key, value)
+  end
+
   def table(table_id_or_alias)
     Query::Table.new(@api, "t/#{table_id_or_alias}")
   end

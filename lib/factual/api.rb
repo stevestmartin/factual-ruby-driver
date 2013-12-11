@@ -10,6 +10,11 @@ class Factual
       @debug_mode = debug_mode
       @timeout = timeout
       @host = host || API_V3_HOST
+      @headers = {}
+    end
+
+    def apply_header(key, value)
+      @headers[key] = value if value
     end
 
     def get(query, other_params = {})
@@ -100,6 +105,7 @@ class Factual
       start_time = Time.now
 
       headers = { "X-Factual-Lib" => DRIVER_VERSION_TAG }
+      headers.merge!(@headers)
 
       res = if (method == :get)
               Timeout::timeout(@timeout){ @access_token.get(url, headers) }
