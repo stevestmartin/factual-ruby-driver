@@ -1,3 +1,8 @@
+## v1.3.12
+* deprecated geopulse
+* deprecated category field
+* fix boost
+
 ## v1.3.11
 * adding support for applying a request header
 

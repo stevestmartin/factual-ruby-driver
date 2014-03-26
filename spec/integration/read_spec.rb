@@ -29,7 +29,7 @@ describe "Read APIs" do
 
   it "should be able to do a table query" do
     rows = @factual.table("places").search("sushi", "sashimi")
-      .filters("category" => "Food & Beverage > Restaurants")
+      .filters("category_labels" => "Food & Beverage > Restaurants")
       .geo("$circle" => {"$center" => [LAT, LNG], "$meters" => 5000})
       .sort("name").page(2, :per => 10).rows
     rows.class.should == Array
@@ -78,21 +78,22 @@ describe "Read APIs" do
     row['address'].should_not be_empty
   end
 
-  it "should be able to do geopulse queries" do
-    query = @factual.geopulse(LAT, LNG)
-    row = query.data['demographics']
-    row.class.should == Hash
-    row['area_statistics'].class.should == Hash
-    row['income'].class.should == Hash
-    row['race_and_ethnicity'].class.should == Hash
-
-    query = query.select('area_statistics', 'income')
-    row = query.data['demographics']
-    row.class.should == Hash
-    row['area_statistics'].class.should == Hash
-    row['income'].class.should == Hash
-    row['race_and_ethnicity'].class.should == NilClass
-  end
+  # geopulse is deprecated
+  # it "should be able to do geopulse queries" do
+  #   query = @factual.geopulse(LAT, LNG)
+  #   row = query.data['demographics']
+  #   row.class.should == Hash
+  #   row['area_statistics'].class.should == Hash
+  #   row['income'].class.should == Hash
+  #   row['race_and_ethnicity'].class.should == Hash
+  #
+  #   query = query.select('area_statistics', 'income')
+  #   row = query.data['demographics']
+  #   row.class.should == Hash
+  #   row['area_statistics'].class.should == Hash
+  #   row['income'].class.should == Hash
+  #   row['race_and_ethnicity'].class.should == NilClass
+  # end
 
   it "should redirect for deprecated endpoints" do
     row = @factual.table("places").row("1c87c781-1fb9-40d0-b9b1-1e140277eb2b")
