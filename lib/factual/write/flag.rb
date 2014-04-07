@@ -2,7 +2,7 @@ class Factual
   module Write
     class Flag < Base
       PROBLEMS = [:duplicate, :nonexistent, :inaccurate, :inappropriate, :spam, :other]
-      VALID_KEYS = [:table, :factual_id, :problem, :user, :comment, :debug, :reference]
+      VALID_KEYS = [:table, :factual_id, :problem, :user, :comment, :debug, :reference, :fields, :data]
 
       def initialize(api, params)
         validate_params(params)
