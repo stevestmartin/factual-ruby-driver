@@ -1,3 +1,6 @@
+## v1.3.13
+* added support of data/fields parameters of flag
+
 ## v1.3.12
 * deprecated geopulse
 * deprecated category field

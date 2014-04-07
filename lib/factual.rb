@@ -100,12 +100,18 @@ class Factual
     Write::Boost.new(@api, boost_params)
   end
 
-  def flag(table, user, factual_id, problem)
+  def flag(table, user, factual_id, problem, opts={})
     flag_params = {
       :table => table,
       :factual_id => factual_id,
       :problem => problem,
       :user => user }
+
+    data = opts[:data] || opts["data"]
+    flag_params[:data] = data if data
+
+    fields = opts[:fields] || opts["fields"]
+    flag_params[:fields] = fields if fields
 
     Write::Flag.new(@api, flag_params)
   end
