@@ -47,8 +47,8 @@ class Factual
     Query::Match.new(@api, :values => values)
   end
 
-  def resolve(values)
-    Query::Resolve.new(@api, :values => values)
+  def resolve(values, params = {})
+    Query::Resolve.new(@api, :values => values, :us_only => params[:us_only])
   end
 
   def geocode(lat, lng)

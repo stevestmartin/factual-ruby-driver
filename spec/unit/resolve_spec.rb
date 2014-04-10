@@ -16,6 +16,12 @@ describe Factual::Query::Resolve do
     CGI::unescape(@token.last_url).should == expected_url
   end
 
+  it "should be able to resolve us places only" do
+    Factual::Query::Resolve.new(@api, :values => {:name => "McDonalds"}, :us_only => true).rows
+    expected_url = "http://api.v3.factual.com/t/places-us/resolve?values={\"name\":\"McDonalds\"}"
+    CGI::unescape(@token.last_url).should == expected_url
+  end
+
   it "should be able to get the total count" do
     @resolve.total_count
     expected_url = @base + "include_count=true&limit=1"
